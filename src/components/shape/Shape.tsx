@@ -1,19 +1,30 @@
 import html2canvas from "html2canvas";
 import Konva from "konva";
-import { useEffect, useRef, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import { Group, Rect } from "react-konva";
 import { Html } from "react-konva-utils";
 import HtmlText from "../htmlText/HtmlText";
 
-const Shape = (props: any) => {
+interface IShapeProps {
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  tool: string,
+  html: string,
+  id: string,
+  text: string
+}
+
+const Shape = (props: IShapeProps) => {
   const { x, y, width, height, tool, html, id, text } = props;
   const [isEditing, setIsEditing] = useState(false);
   const [value, setValue] = useState(text);
 
-  const groupRef = useRef<any>(null);
-  const imageRef = useRef<any>(null);
-  const htmlRef = useRef<any>(null);
-  const renderImage = async () => {
+  const groupRef = useRef<Konva.Group | null>(null);
+  const imageRef = useRef<Konva.Image | null>(null);
+  const htmlRef = useRef<HTMLElement | null>(null);
+  const renderImage = useCallback(async () => {
     const htmltext = document.getElementById(`htmltext_${id}`);
     if (htmltext) {
       const innerhtml = htmltext.innerHTML;
@@ -28,15 +39,17 @@ const Shape = (props: any) => {
           scaleY: 1 / window.devicePixelRatio,
           image: canvas,
         });
-        groupRef.current.add(shape);
+        if (groupRef.current) {
+          groupRef.current.add(shape);
+        }
         imageRef.current = shape;
       } else return;
     } else return;
-  };
+  }, [height, id]);
 
   useEffect(() => {
     renderImage();
-  }, []);
+  }, [renderImage]);
 
   const handleClick = () => {
     if (tool === "shape") {
@@ -53,7 +66,7 @@ const Shape = (props: any) => {
     }
   };
 
-  const handleInput = (e: any) => {
+  const handleInput = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setValue(e.target.value);
   };
 
