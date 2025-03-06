@@ -4,12 +4,16 @@ import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import { Group, Rect } from "react-konva";
 import { Html } from "react-konva-utils";
 import HtmlText from "../htmlText/HtmlText";
-import { TShape } from "../../types/types";
+import { TShape, TTool } from "../../types/types";
 
-type ShapeProps = TShape
+interface ShapeProps {
+  shape: TShape;
+  tool: TTool;
+}
 
 const Shape = (props: ShapeProps) => {
-  const { x, y, width, height, tool, html, id, text } = props;
+  const { x, y, width, height, html, id, text } = props.shape;
+  const { tool } = props;
   const [isEditing, setIsEditing] = useState(false);
   const [value, setValue] = useState(text);
 
@@ -30,7 +34,6 @@ const Shape = (props: ShapeProps) => {
           scaleX: 1 / window.devicePixelRatio,
           scaleY: 1 / window.devicePixelRatio,
           image: canvas,
-          
         });
         if (groupRef.current) {
           groupRef.current.add(shape);

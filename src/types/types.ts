@@ -3,7 +3,6 @@ export type TShape = {
     y: number,
     width: number,
     height: number,
-    tool: TTool,
     html: string,
     id: string,
     text: string,

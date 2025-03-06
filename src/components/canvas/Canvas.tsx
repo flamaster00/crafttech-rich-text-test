@@ -30,7 +30,6 @@ const Canvas = ({ tool, stageRef }: CanvasProps) => {
       y: point.y - stageOffset.y,
       html: "",
       text: "",
-      tool: tool
     };
 
     setShapes((prev) => [...prev, newShape]);
@@ -46,7 +45,7 @@ const Canvas = ({ tool, stageRef }: CanvasProps) => {
     >
       <Layer>
         {shapes.map(shape => {
-          return <Shape key={shape.id} {...shape} />;
+          return <Shape key={shape.id} shape={shape} tool={tool} />;
         })}
       </Layer>
     </Stage>
