@@ -1,6 +1,16 @@
-const Control = ({ tool, setTool }: any) => {
-  const handleOnChange = (e: any) => {
-    setTool(e.target.value);
+import { ChangeEvent } from "react";
+import { TTool } from "../../types/types";
+
+interface IControlProps {
+  tool: TTool,
+  setTool: (tool: TTool) => void
+}
+
+const Control = ({ tool, setTool }: IControlProps) => {
+
+  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value as TTool
+    setTool(value);
   };
 
   return (

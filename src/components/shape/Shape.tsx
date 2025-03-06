@@ -4,26 +4,18 @@ import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import { Group, Rect } from "react-konva";
 import { Html } from "react-konva-utils";
 import HtmlText from "../htmlText/HtmlText";
+import { TShape } from "../../types/types";
 
-interface IShapeProps {
-  x: number,
-  y: number,
-  width: number,
-  height: number,
-  tool: string,
-  html: string,
-  id: string,
-  text: string
-}
+type ShapeProps = TShape
 
-const Shape = (props: IShapeProps) => {
+const Shape = (props: ShapeProps) => {
   const { x, y, width, height, tool, html, id, text } = props;
   const [isEditing, setIsEditing] = useState(false);
   const [value, setValue] = useState(text);
 
   const groupRef = useRef<Konva.Group | null>(null);
   const imageRef = useRef<Konva.Image | null>(null);
-  const htmlRef = useRef<HTMLElement | null>(null);
+  const htmlRef = useRef<HTMLDivElement | null>(null);
   const renderImage = useCallback(async () => {
     const htmltext = document.getElementById(`htmltext_${id}`);
     if (htmltext) {
@@ -38,6 +30,7 @@ const Shape = (props: IShapeProps) => {
           scaleX: 1 / window.devicePixelRatio,
           scaleY: 1 / window.devicePixelRatio,
           image: canvas,
+          
         });
         if (groupRef.current) {
           groupRef.current.add(shape);

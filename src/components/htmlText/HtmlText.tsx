@@ -1,6 +1,12 @@
 import { forwardRef } from "react";
+import { TShape } from "../../types/types";
 
-const HtmlText = forwardRef(({ html, id }: any, ref: any) => {
+interface HtmlTextProps {
+  html: TShape['html'],
+  id: TShape['id'], 
+}
+
+const HtmlText = forwardRef<HTMLDivElement, HtmlTextProps>(({ html, id }, ref) => {
   return (
     <div
       id={`htmltext_${id}`}
